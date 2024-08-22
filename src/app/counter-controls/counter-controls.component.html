@@ -21,31 +21,48 @@
   </button>
 </div>
 
-
-<div class="flex justify-center bg-slate-200 mt-1">
-  <div class="flex items-center space-x-4 p-4">
-    <button
-      class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+<form [formGroup]="counterForm">
+  <div class="flex justify-center bg-slate-200 mt-1">
+    <div class="flex items-center space-x-4 p-4">
+      <button
+        type="button"
+        class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+        (click)="onDecrement()"
       >
-      Decrement By
-    </button>
-    <input
-    type="text"
-    class="border border-gray-300 rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
+        Decrement By
+      </button>
+      <input
+        type="text"
+        formControlName="decrementValue"
+        class="border border-gray-300 rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <div *ngIf="counterForm.get('decrementValue')?.invalid && counterForm.get('decrementValue')?.touched" class="text-red-500">
+        <small *ngIf="counterForm.get('decrementValue')?.errors?.['required']">Value is required.</small>
+        <small *ngIf="counterForm.get('decrementValue')?.errors?.['pattern']">Only numbers are allowed.</small>
+      </div>
+    </div>
   </div>
-</div>
+</form>
 
-<div class="flex justify-center bg-slate-200 mt-1">
-  <div class="flex items-center space-x-4 p-4">
-    <button
-      class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
-    >
-      Increment By
-    </button>
-    <input
-      type="text"
-      class="border border-gray-300 rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
+<form [formGroup]="counterForm">
+  <div class="flex justify-center bg-slate-200 mt-1">
+    <div class="flex items-center space-x-4 p-4">
+      <button
+        type="button"
+        class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+        (click)="onIncrement()"
+      >
+        Increment By
+      </button>
+      <input
+        type="text"
+        formControlName="incrementValue"
+        class="border border-gray-300 rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <div *ngIf="counterForm.get('incrementValue')?.invalid && counterForm.get('incrementValue')?.touched" class="text-red-500">
+        <small *ngIf="counterForm.get('incrementValue')?.errors?.['required']">Value is required.</small>
+        <small *ngIf="counterForm.get('incrementValue')?.errors?.['pattern']">Only numbers are allowed.</small>
+      </div>
+    </div>
   </div>
-</div>
+</form>

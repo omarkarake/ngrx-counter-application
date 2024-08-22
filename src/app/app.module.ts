@@ -8,6 +8,7 @@ import { CounterOutputComponent } from './counter-output/counter-output.componen
 import { StoreModule } from '@ngrx/store';
 import { counterReducer } from './store/reducers/counter.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({
       counter: counterReducer,
       // I can add more reducers here...
