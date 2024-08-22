@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { CounterControlsComponent } from './counter-controls/counter-controls.component';
 import { CounterOutputComponent } from './counter-output/counter-output.component';
 import { StoreModule } from '@ngrx/store';
-import { counterReducer } from './store/counter.reducer';
+import { counterReducer } from './store/reducers/counter.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
