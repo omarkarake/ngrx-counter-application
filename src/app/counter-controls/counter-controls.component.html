@@ -32,14 +32,11 @@
         Decrement By
       </button>
       <input
-        type="text"
+        type="number"
         formControlName="decrementValue"
+        [placeholder]="getDecrementErrorMessage()"
         class="border border-gray-300 rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <div *ngIf="counterForm.get('decrementValue')?.invalid && counterForm.get('decrementValue')?.touched" class="text-red-500">
-        <small *ngIf="counterForm.get('decrementValue')?.errors?.['required']">Value is required.</small>
-        <small *ngIf="counterForm.get('decrementValue')?.errors?.['pattern']">Only numbers are allowed.</small>
-      </div>
     </div>
   </div>
 </form>
@@ -55,14 +52,11 @@
         Increment By
       </button>
       <input
-        type="text"
+        type="number"
         formControlName="incrementValue"
+        [placeholder]="getIncrementErrorMessage()"
         class="border border-gray-300 rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <div *ngIf="counterForm.get('incrementValue')?.invalid && counterForm.get('incrementValue')?.touched" class="text-red-500">
-        <small *ngIf="counterForm.get('incrementValue')?.errors?.['required']">Value is required.</small>
-        <small *ngIf="counterForm.get('incrementValue')?.errors?.['pattern']">Only numbers are allowed.</small>
-      </div>
     </div>
   </div>
 </form>

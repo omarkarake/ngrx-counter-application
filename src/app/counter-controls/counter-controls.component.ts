@@ -33,13 +33,39 @@ export class CounterControlsComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  getDecrementErrorMessage(): string {
+    const control = this.counterForm.get('decrementValue');
+    if (control?.touched) {
+      if (control.hasError('required')) {
+        return 'Value is required';
+      }
+      if (control.hasError('pattern')) {
+        return 'Only numbers are allowed';
+      }
+    }
+    return '';
+  }
+
+  getIncrementErrorMessage(): string {
+    const control = this.counterForm.get('incrementValue');
+    if (control?.touched) {
+      if (control.hasError('required')) {
+        return 'Value is required';
+      }
+      if (control.hasError('pattern')) {
+        return 'Only numbers are allowed';
+      }
+    }
+    return '';
+  }
+
   increment() {
-    this.store.dispatch(increment({ value: 2 }));
+    this.store.dispatch(increment({ value: 1 }));
     // this.store.dispatch(new IncrementAction(2));
   }
 
   decrement() {
-    this.store.dispatch(decrement({ value: 2 }));
+    this.store.dispatch(decrement({ value: 1 }));
   }
 
   reset() {
