@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StoreService } from '../store/store.service';
+import { StoreService } from '../store.service';
 
 @Component({
   selector: 'app-counter-controls',

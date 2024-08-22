@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { StoreService } from '../store/store.service';
+import { StoreService } from '../store.service';
 
 @Component({
   selector: 'app-counter-output',
