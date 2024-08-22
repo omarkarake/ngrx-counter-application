@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 // import { StoreService } from '../store.service';
 import { Store } from '@ngrx/store';
 // import { IncrementAction } from '../store/actions/counter.actions';
-import { decrement, increment, reset } from '../store/actions/counter.actions';
+import {
+  decrement,
+  decrementBy,
+  increment,
+  incrementBy,
+  reset,
+} from '../store/actions/counter.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -14,8 +20,14 @@ export class CounterControlsComponent implements OnInit {
   counterForm: FormGroup;
   constructor(private store: Store, private fb: FormBuilder) {
     this.counterForm = this.fb.group({
-      decrementValue: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      incrementValue: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
+      decrementValue: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]*$')],
+      ],
+      incrementValue: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]*$')],
+      ],
     });
   }
 
@@ -36,17 +48,17 @@ export class CounterControlsComponent implements OnInit {
 
   onDecrement(): void {
     if (this.counterForm.get('decrementValue')?.valid) {
-      const decrementValue = this.counterForm.get('decrementValue')?.value;
-      console.log("decrementValue", decrementValue);
-      // I will add the decrementby logic here
+      const decrementValue: number =
+        +this.counterForm.get('decrementValue')?.value;
+      this.store.dispatch(decrementBy({ value: decrementValue }));
     }
   }
 
   onIncrement(): void {
     if (this.counterForm.get('incrementValue')?.valid) {
-      const incrementValue = this.counterForm.get('incrementValue')?.value;
-      console.log("incrementValue", incrementValue);
-      // I will add the incrementby logic here
+      const incrementValue: number =
+        +this.counterForm.get('incrementValue')?.value;
+      this.store.dispatch(incrementBy({ value: incrementValue }));
     }
   }
 }
