@@ -10,6 +10,7 @@ import {
   reset,
 } from '../store/actions/counter.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { addHistory } from '../store/actions/counter-history.actions';
 
 @Component({
   selector: 'app-counter-controls',
@@ -77,6 +78,7 @@ export class CounterControlsComponent implements OnInit {
       const decrementValue: number =
         +this.counterForm.get('decrementValue')?.value;
       this.store.dispatch(decrementBy({ value: decrementValue }));
+      this.store.dispatch(addHistory({ value: -decrementValue }));
     }
   }
 
@@ -85,6 +87,7 @@ export class CounterControlsComponent implements OnInit {
       const incrementValue: number =
         +this.counterForm.get('incrementValue')?.value;
       this.store.dispatch(incrementBy({ value: incrementValue }));
+      this.store.dispatch(addHistory({ value: incrementValue }));
     }
   }
 }

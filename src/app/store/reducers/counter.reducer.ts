@@ -9,7 +9,7 @@ import {
   reset,
 } from '../actions/counter.actions';
 
-interface InitialState {
+export interface InitialState {
   counter: number;
 }
 
