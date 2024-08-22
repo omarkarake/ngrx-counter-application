@@ -62,11 +62,14 @@ export class CounterControlsComponent implements OnInit {
 
   increment() {
     this.store.dispatch(increment({ value: 1 }));
+    this.store.dispatch(addHistory({ value: 1 }));
     // this.store.dispatch(new IncrementAction(2));
   }
 
   decrement() {
     this.store.dispatch(decrement({ value: 1 }));
+    this.store.dispatch(addHistory({ value: -1 }));
+
   }
 
   reset() {
