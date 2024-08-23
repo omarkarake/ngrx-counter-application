@@ -18,7 +18,11 @@ import {
   getLastHistoryElement,
   undo,
 } from '../store/actions/counter-history.actions';
-import { historySum, selectCount } from '../store/selectors/counter.selector';
+import {
+  historyArray,
+  historySum,
+  selectCount,
+} from '../store/selectors/counter.selector';
 
 @Component({
   selector: 'app-counter-controls',
@@ -112,14 +116,23 @@ export class CounterControlsComponent implements OnInit {
   }
 
   undo() {
-    this.store.dispatch(undo());
-    this.store.dispatch(getHistorySum());
-    this.historySum$ = this.store.select(
-      (state) => state.counterHistory.historySum
-    );
-    this.historySum$.pipe(take(1)).subscribe((historySum) => {
-      this.store.dispatch(getNewValueFromUndo({ value: historySum }));
-    });
+    this.store
+      .select(historyArray)
+      .pipe(take(1))
+      .subscribe((history) => {
+        if (history.length > 1) {
+          this.store.dispatch(undo());
+          this.store.dispatch(getHistorySum());
+          this.historySum$ = this.store.select(
+            (state) => state.counterHistory.historySum
+          );
+          this.historySum$.pipe(take(1)).subscribe((historySum) => {
+            this.store.dispatch(getNewValueFromUndo({ value: historySum }));
+          });
+        } else {
+          console.log('Cannot undo');
+        }
+      });
   }
 
   onDecrement(): void {

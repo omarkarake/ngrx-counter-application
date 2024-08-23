@@ -10,3 +10,8 @@ export const historySum = (state: {
   counter: InitialState;
   counterHistory: CounterHistoryState;
 }) => state.counterHistory.historySum;
+
+export const historyArray = (state: {
+  counter: InitialState;
+  counterHistory: CounterHistoryState;
+}) => state.counterHistory.history;
