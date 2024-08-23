@@ -78,9 +78,15 @@ export class CounterControlsComponent implements OnInit {
   }
 
   decrement() {
-    this.store.dispatch(decrement({ value: 1 }));
-    this.store.dispatch(addHistory({ value: -1 }));
-    this.store.dispatch(getHistorySum());
+    this.store
+      .select((state) => state.counter.counter)
+      .subscribe((counter) => {
+        if (counter > 0) {
+          this.store.dispatch(decrement({ value: 1 }));
+          this.store.dispatch(addHistory({ value: -1 }));
+          this.store.dispatch(getHistorySum());
+        }
+      });
   }
 
   reset() {
@@ -102,13 +108,19 @@ export class CounterControlsComponent implements OnInit {
   }
 
   onDecrement(): void {
-    if (this.counterForm.get('decrementValue')?.valid) {
-      const decrementValue: number =
-        +this.counterForm.get('decrementValue')?.value;
-      this.store.dispatch(decrementBy({ value: decrementValue }));
-      this.store.dispatch(addHistory({ value: -decrementValue }));
-      this.store.dispatch(getHistorySum());
-    }
+    this.store
+      .select((state) => state.counter.counter)
+      .subscribe((counter) => {
+        if (counter > 0) {
+          if (this.counterForm.get('decrementValue')?.valid) {
+            const decrementValue: number =
+              +this.counterForm.get('decrementValue')?.value;
+            this.store.dispatch(decrementBy({ value: decrementValue }));
+            this.store.dispatch(addHistory({ value: -decrementValue }));
+            this.store.dispatch(getHistorySum());
+          }
+        }
+      });
   }
 
   onIncrement(): void {

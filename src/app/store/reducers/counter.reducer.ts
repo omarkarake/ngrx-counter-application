@@ -24,7 +24,7 @@ export const counterReducer = createReducer(
   })),
   on(decrement, (state, action) => ({
     ...state,
-    counter: state.counter - action.value,
+    counter: Math.max(0, state.counter - action.value),
   })),
   on(incrementBy, (state, action) => ({
     ...state,
@@ -32,11 +32,11 @@ export const counterReducer = createReducer(
   })),
   on(decrementBy, (state, action) => ({
     ...state,
-    counter: state.counter - action.value,
+    counter: Math.max(0, state.counter - action.value),
   })),
   on(getNewValueFromUndo, (state, action) => ({
     ...state,
-    counter: action.value,
+    counter: Math.max(0, action.value),
   })),
   on(reset, (state) =>
     Object.assign({}, state, { counter: initialState.counter })
