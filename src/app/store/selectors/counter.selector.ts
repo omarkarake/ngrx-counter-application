@@ -5,3 +5,8 @@ export const selectCount = (state: {
   counter: InitialState;
   counterHistory: CounterHistoryState;
 }) => state.counter.counter;
+
+export const historySum = (state: {
+  counter: InitialState;
+  counterHistory: CounterHistoryState;
+}) => state.counterHistory.historySum;

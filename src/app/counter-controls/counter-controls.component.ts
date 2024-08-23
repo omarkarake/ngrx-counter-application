@@ -18,7 +18,7 @@ import {
   getLastHistoryElement,
   undo,
 } from '../store/actions/counter-history.actions';
-import { selectCount } from '../store/selectors/counter.selector';
+import { historySum, selectCount } from '../store/selectors/counter.selector';
 
 @Component({
   selector: 'app-counter-controls',
@@ -129,6 +129,17 @@ export class CounterControlsComponent implements OnInit {
       this.store.dispatch(decrementBy({ value: decrementValue }));
       this.store.dispatch(addHistory({ value: -decrementValue }));
       this.store.dispatch(getHistorySum());
+      // we will check if the counter will be less that zero after decrement and then remove the last element from the history
+      this.store
+        .select(historySum)
+        .pipe(take(1))
+        .subscribe((sum) => {
+          if (sum < 0) {
+            this.store.dispatch(undo());
+            this.store.dispatch(getHistorySum());
+          }
+          // console.log('sum', sum, ' and isless', sum < 0);
+        });
     }
   }
 
