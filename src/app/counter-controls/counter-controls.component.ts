@@ -69,10 +69,10 @@ export class CounterControlsComponent implements OnInit {
   decrement() {
     this.store.dispatch(decrement({ value: 1 }));
     this.store.dispatch(addHistory({ value: -1 }));
-
   }
 
   reset() {
+    this.store.dispatch(addHistory({ value: 0 }));
     this.store.dispatch(reset());
   }
 

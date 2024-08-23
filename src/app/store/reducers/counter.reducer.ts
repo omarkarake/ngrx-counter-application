@@ -13,7 +13,7 @@ export interface InitialState {
   counter: number;
 }
 
-const initialState: InitialState = { counter: 1 };
+const initialState: InitialState = { counter: 0 };
 
 export const counterReducer = createReducer(
   initialState,
