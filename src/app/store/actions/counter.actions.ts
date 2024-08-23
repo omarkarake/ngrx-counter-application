@@ -21,7 +21,10 @@ export const decrementBy = createAction(
   props<{ value: number }>()
 );
 
-export const reset = createAction('[Counter] Reset');
+export const reset = createAction(
+  '[Counter] Reset',
+  props<{ value: number }>()
+);
 export const getNewValueFromUndo = createAction(
   '[Counter] Get New Value From Undo',
   props<{ value: number }>()

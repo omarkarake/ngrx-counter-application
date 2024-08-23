@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   addHistory,
   getHistorySum,
+  getLastHistoryElement,
   undo,
 } from '../store/actions/counter-history.actions';
 
@@ -74,24 +75,30 @@ export class CounterControlsComponent implements OnInit {
     this.store.dispatch(increment({ value: 1 }));
     this.store.dispatch(addHistory({ value: 1 }));
     this.store.dispatch(getHistorySum());
-    // this.store.dispatch(new IncrementAction(2));
   }
 
   decrement() {
-    this.store
-      .select((state) => state.counter.counter)
-      .subscribe((counter) => {
-        if (counter > 0) {
-          this.store.dispatch(decrement({ value: 1 }));
-          this.store.dispatch(addHistory({ value: -1 }));
-          this.store.dispatch(getHistorySum());
-        }
-      });
+    // this.store
+    //   .select((state) => state.counter.counter)
+    //   .subscribe((counter) => {
+    //     if (counter > 0) {
+    //     }
+    //   });
+    this.store.dispatch(decrement({ value: 1 }));
+    this.store.dispatch(addHistory({ value: -1 }));
+    this.store.dispatch(getHistorySum());
   }
 
   reset() {
     this.store.dispatch(addHistory({ value: 0 }));
-    this.store.dispatch(reset());
+    this.store.dispatch(getLastHistoryElement());
+    this.store
+      .select((state) => state.counterHistory.lastElement)
+      .subscribe((lastElement) => {
+        this.store.dispatch(reset({ value: lastElement }));
+        console.log('lastElement', lastElement);
+      });
+    // this.store.dispatch(reset()); // we will get back here....
     this.store.dispatch(getHistorySum());
   }
 
@@ -108,19 +115,19 @@ export class CounterControlsComponent implements OnInit {
   }
 
   onDecrement(): void {
-    this.store
-      .select((state) => state.counter.counter)
-      .subscribe((counter) => {
-        if (counter > 0) {
-          if (this.counterForm.get('decrementValue')?.valid) {
-            const decrementValue: number =
-              +this.counterForm.get('decrementValue')?.value;
-            this.store.dispatch(decrementBy({ value: decrementValue }));
-            this.store.dispatch(addHistory({ value: -decrementValue }));
-            this.store.dispatch(getHistorySum());
-          }
-        }
-      });
+    // this.store
+    //   .select((state) => state.counter.counter)
+    //   .subscribe((counter) => {
+    //     if (counter > 0) {
+    //     }
+    //   });
+    if (this.counterForm.get('decrementValue')?.valid) {
+      const decrementValue: number =
+        +this.counterForm.get('decrementValue')?.value;
+      this.store.dispatch(decrementBy({ value: decrementValue }));
+      this.store.dispatch(addHistory({ value: -decrementValue }));
+      this.store.dispatch(getHistorySum());
+    }
   }
 
   onIncrement(): void {

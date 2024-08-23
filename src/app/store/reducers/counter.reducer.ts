@@ -38,9 +38,13 @@ export const counterReducer = createReducer(
     ...state,
     counter: Math.max(0, action.value),
   })),
-  on(reset, (state) =>
-    Object.assign({}, state, { counter: initialState.counter })
-  )
+  on(reset, (state, action) => ({
+    ...state,
+    counter: action.value,
+  }))
+  // on(reset, (state) =>
+  //   Object.assign({}, state, { counter: initialState.counter })
+  // )
 );
 
 // I am using alternative way to to create reducer and handle increment action

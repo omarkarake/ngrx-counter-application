@@ -15,7 +15,7 @@ export const reducers: ActionReducerMap<AppState> = {
   counterHistory: counterHistoryReducer,
 };
 
-export const rootReducer = combineReducers({
-  counter: counterReducer,
-  counterHistory: counterHistoryReducer,
-});
+// export const rootReducer = combineReducers({
+//   counter: counterReducer,
+//   counterHistory: counterHistoryReducer,
+// });
