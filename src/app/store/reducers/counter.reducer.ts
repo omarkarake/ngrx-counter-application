@@ -4,6 +4,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   decrement,
   decrementBy,
+  getNewValueFromUndo,
   increment,
   incrementBy,
   reset,
@@ -32,6 +33,10 @@ export const counterReducer = createReducer(
   on(decrementBy, (state, action) => ({
     ...state,
     counter: state.counter - action.value,
+  })),
+  on(getNewValueFromUndo, (state, action) => ({
+    ...state,
+    counter: action.value,
   })),
   on(reset, (state) =>
     Object.assign({}, state, { counter: initialState.counter })

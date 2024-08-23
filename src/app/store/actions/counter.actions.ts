@@ -22,6 +22,10 @@ export const decrementBy = createAction(
 );
 
 export const reset = createAction('[Counter] Reset');
+export const getNewValueFromUndo = createAction(
+  '[Counter] Get New Value From Undo',
+  props<{ value: number }>()
+);
 
 // export const INCREMENT = '[Counter] Increment'
 

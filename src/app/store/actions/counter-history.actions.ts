@@ -5,4 +5,6 @@ export const addHistory = createAction(
   props<{ value: number }>()
 );
 
+export const undo = createAction('[History] Undo');
+export const getHistorySum = createAction('[Counter History] Get History Sum');
 export const clearHistory = createAction('[Counter History] Clear History');
