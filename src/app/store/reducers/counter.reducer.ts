@@ -22,18 +22,30 @@ export const counterReducer = createReducer(
     ...state,
     counter: state.counter + action.value,
   })),
-  on(decrement, (state, action) => ({
-    ...state,
-    counter: Math.max(0, state.counter - action.value),
-  })),
+  on(decrement, (state, action) => {
+    if (state.counter - action.value < 0) {
+      return state;
+    } else {
+      return {
+        ...state,
+        counter: state.counter - action.value,
+      };
+    }
+  }),
   on(incrementBy, (state, action) => ({
     ...state,
     counter: state.counter + action.value,
   })),
-  on(decrementBy, (state, action) => ({
-    ...state,
-    counter: Math.max(0, state.counter - action.value),
-  })),
+  on(decrementBy, (state, action) => {
+    if (state.counter - action.value < 0) {
+      return state;
+    } else {
+      return {
+        ...state,
+        counter: state.counter - action.value,
+      };
+    }
+  }),
   on(getNewValueFromUndo, (state, action) => ({
     ...state,
     counter: Math.max(0, action.value),

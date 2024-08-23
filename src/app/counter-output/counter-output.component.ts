@@ -1,6 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { selectCount } from '../store/selectors/counter.selector';
+import { AppState } from '../store/reducers/app.reducer';
 
 @Component({
   selector: 'app-counter-output',
@@ -12,8 +14,8 @@ export class CounterOutputComponent implements OnDestroy {
   counterServiceSub?: Subscription;
   count$: Observable<number>;
 
-  constructor(private store: Store<{ counter: { counter: number } }>) {
-    this.count$ = store.select(state => state.counter.counter);
+  constructor(private store: Store<AppState>) {
+    this.count$ = store.select(selectCount);
   }
 
   ngOnDestroy() {

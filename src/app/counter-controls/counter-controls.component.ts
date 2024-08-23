@@ -1,9 +1,8 @@
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AppState } from './../store/reducers/app.reducer';
 import { Component, OnInit } from '@angular/core';
-// import { StoreService } from '../store.service';
 import { Store } from '@ngrx/store';
-// import { IncrementAction } from '../store/actions/counter.actions';
 import {
   decrement,
   decrementBy,
@@ -19,6 +18,7 @@ import {
   getLastHistoryElement,
   undo,
 } from '../store/actions/counter-history.actions';
+import { selectCount } from '../store/selectors/counter.selector';
 
 @Component({
   selector: 'app-counter-controls',
@@ -30,6 +30,7 @@ export class CounterControlsComponent implements OnInit {
   historySum$: Observable<number> = this.store.select(
     (state) => state.counterHistory.historySum
   );
+  count$: Observable<number>;
   constructor(private store: Store<AppState>, private fb: FormBuilder) {
     this.counterForm = this.fb.group({
       decrementValue: [
@@ -41,6 +42,14 @@ export class CounterControlsComponent implements OnInit {
         [Validators.required, Validators.pattern('^[0-9]*$')],
       ],
     });
+
+    this.historySum$ = this.store.select(
+      (state) => state.counterHistory.historySum
+    );
+    this.historySum$.pipe(take(1)).subscribe((historySum) => {
+      this.store.dispatch(getNewValueFromUndo({ value: 0 }));
+    });
+    this.count$ = store.select(selectCount);
   }
 
   ngOnInit(): void {}
@@ -78,15 +87,15 @@ export class CounterControlsComponent implements OnInit {
   }
 
   decrement() {
-    // this.store
-    //   .select((state) => state.counter.counter)
-    //   .subscribe((counter) => {
-    //     if (counter > 0) {
-    //     }
-    //   });
-    this.store.dispatch(decrement({ value: 1 }));
-    this.store.dispatch(addHistory({ value: -1 }));
-    this.store.dispatch(getHistorySum());
+    this.count$.pipe(take(1)).subscribe((count) => {
+      if (count > 0) {
+        this.store.dispatch(decrement({ value: 1 }));
+        this.store.dispatch(addHistory({ value: -1 }));
+        this.store.dispatch(getHistorySum());
+      } else {
+        console.log('count', count);
+      }
+    });
   }
 
   reset() {
@@ -94,33 +103,26 @@ export class CounterControlsComponent implements OnInit {
     this.store.dispatch(getLastHistoryElement());
     this.store
       .select((state) => state.counterHistory.lastElement)
+      .pipe(take(1))
       .subscribe((lastElement) => {
         this.store.dispatch(reset({ value: lastElement }));
         console.log('lastElement', lastElement);
       });
-    // this.store.dispatch(reset()); // we will get back here....
     this.store.dispatch(getHistorySum());
   }
 
   undo() {
     this.store.dispatch(undo());
     this.store.dispatch(getHistorySum());
-    // let's get the history sum
     this.historySum$ = this.store.select(
       (state) => state.counterHistory.historySum
     );
-    this.historySum$.subscribe((historySum) => {
+    this.historySum$.pipe(take(1)).subscribe((historySum) => {
       this.store.dispatch(getNewValueFromUndo({ value: historySum }));
     });
   }
 
   onDecrement(): void {
-    // this.store
-    //   .select((state) => state.counter.counter)
-    //   .subscribe((counter) => {
-    //     if (counter > 0) {
-    //     }
-    //   });
     if (this.counterForm.get('decrementValue')?.valid) {
       const decrementValue: number =
         +this.counterForm.get('decrementValue')?.value;
